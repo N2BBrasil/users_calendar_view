@@ -1,0 +1,73 @@
+import 'package:flutter/material.dart';
+import 'package:meta/meta.dart';
+import 'package:users_calendar_view/day_view.dart';
+
+import '_day_builder.dart';
+
+/// Signature for a function that returns events of some [day].
+///
+/// Properties of [day] except for year, month and day are set to their default values.
+typedef Iterable<StartDurationItem> GetEventsOfDayCallback(
+  DateTime day,
+  String userId,
+);
+
+/// [ScheduleComponent] for displaying events in every [DayViewArea.dayArea] of [DayViewSchedule].
+@immutable
+class EventViewComponent implements ScheduleComponent {
+  EventViewComponent({
+    @required this.getEventsOfDay,
+    this.eventArranger = const ChainsEventArranger(),
+  })  : assert(getEventsOfDay != null),
+        assert(eventArranger != null);
+
+  /// Function that returns events of some day.
+  final GetEventsOfDayCallback getEventsOfDay;
+
+  /// Objects that determines positions and sizes of events displayed by this component.
+  final EventViewArranger eventArranger;
+
+  @override
+  List<Positioned> buildItems(
+    BuildContext context,
+    DayViewProperties properties,
+    SchedulePositioner positioner,
+  ) {
+    List<Positioned> items = <Positioned>[];
+
+    List<DateTime> days = properties.days;
+    List<String> userIds = properties.userIds;
+    for (int dayNumber = 0; dayNumber < days.length; dayNumber++) {
+      DateTime day = days[dayNumber];
+      String userId = userIds[dayNumber];
+
+      List<Positioned> itemsOfDay = _buildDay(
+        context: context,
+        dayNumber: dayNumber,
+        events: getEventsOfDay(day, userId),
+        positioner: positioner,
+      );
+
+      items.addAll(itemsOfDay);
+    }
+
+    return items;
+  }
+
+  List<Positioned> _buildDay({
+    @required BuildContext context,
+    @required int dayNumber,
+    @required Iterable<StartDurationItem> events,
+    @required SchedulePositioner positioner,
+  }) {
+    DayBuilder dayBuilder = new DayBuilder(
+      context: context,
+      dayNumber: dayNumber,
+      events: events,
+      eventArranger: eventArranger,
+      positioner: positioner,
+    );
+
+    return dayBuilder.build();
+  }
+}
