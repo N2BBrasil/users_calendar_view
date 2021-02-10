@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 
 import 'day_view_properties.dart';
 import 'day_view_widths.dart';
