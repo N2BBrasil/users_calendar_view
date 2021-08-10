@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 import 'package:users_calendar_view/src/calendar_page_view/all.dart';
 
 import 'month_page_link.dart';
@@ -13,17 +12,17 @@ class MonthPageController extends CalendarPageController {
   ///
   /// If [initialMonth] is null, it is set to whatever month is today.
   MonthPageController({
-    DateTime initialMonth,
-  })  : this.initialMonth = initialMonth ?? new DateTime.now(),
+    DateTime? initialMonth,
+  })  : this.initialMonth = initialMonth ?? DateTime.now(),
         assert(initialMonth != null);
 
   /// Month to display when first creating [MonthPageView].
   final DateTime initialMonth;
 
-  MonthPageLink _attachedItem;
+  MonthPageLink? _attachedItem;
 
   @override
-  MonthPageLink get attachedItem => _attachedItem;
+  MonthPageLink? get attachedItem => _attachedItem;
 
   /// Attaches an item to this controller.
   ///
@@ -45,7 +44,7 @@ class MonthPageController extends CalendarPageController {
   DateTime get currentMonth {
     throwExceptionIfNoItemAttached();
 
-    return attachedItem.currentMonth();
+    return attachedItem!.currentMonth();
   }
 
   /// Tels the controlled [MonthPageView] to jump to the given [month].
@@ -56,7 +55,7 @@ class MonthPageController extends CalendarPageController {
   void jumpToMonth(DateTime month) {
     throwExceptionIfNoItemAttached();
 
-    attachedItem.jumpToMonth(month);
+    attachedItem!.jumpToMonth(month);
   }
 
   /// Tels the controlled [MonthPageView] to animate to the given [month].
@@ -66,12 +65,12 @@ class MonthPageController extends CalendarPageController {
   /// If nothing is attached to this controller it throws an exception.
   Future<void> animateToMonth(
     DateTime month, {
-    @required Duration duration,
-    @required Curve curve,
+    required Duration duration,
+    required Curve curve,
   }) {
     throwExceptionIfNoItemAttached();
 
-    return attachedItem.animateToMonth(
+    return attachedItem!.animateToMonth(
       month,
       duration: duration,
       curve: curve,

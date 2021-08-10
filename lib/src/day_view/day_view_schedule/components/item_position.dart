@@ -5,10 +5,9 @@ import 'package:users_calendar_view/day_view.dart';
 @immutable
 class ItemPosition {
   const ItemPosition({
-    @required this.top,
-    @required this.left,
-  })  : assert(top != null),
-        assert(left != null);
+    required this.top,
+    required this.left,
+  });
 
   /// Position recommendation from top edge of [DayViewSchedule].
   final double top;

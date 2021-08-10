@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 import 'package:users_calendar_view/src/_internal_date_time/all.dart';
 import 'package:users_calendar_view/src/calendar_page_view/all.dart';
 
@@ -18,13 +17,11 @@ class MonthPageView extends CalendarPageView {
     Axis scrollDirection = CalendarPageView.default_scroll_direction,
     bool pageSnapping = CalendarPageView.default_page_snapping,
     bool reverse = CalendarPageView.default_reverse,
-    ScrollPhysics physics = CalendarPageView.default_physics,
-    MonthPageController controller,
-    @required this.pageBuilder,
+    ScrollPhysics? physics = CalendarPageView.default_physics,
+    required MonthPageController? controller,
+    required this.pageBuilder,
     this.onMonthChanged,
-  })  : this.controller = controller ?? new MonthPageController(),
-        assert(controller != null),
-        assert(pageBuilder != null),
+  })  : this.controller = controller ?? MonthPageController(),
         super(
           scrollDirection: scrollDirection,
           pageSnapping: pageSnapping,
@@ -41,14 +38,14 @@ class MonthPageView extends CalendarPageView {
   /// Called whenever the page and thus displayed month changes.
   ///
   /// Properties of month except for year and month are set to their default values.
-  final ValueChanged<DateTime> onMonthChanged;
+  final ValueChanged<DateTime>? onMonthChanged;
 
   @override
   CalendarPageViewState createState() => new _MonthPageViewState();
 }
 
 class _MonthPageViewState extends CalendarPageViewState<MonthPageView> {
-  PageMonth _pageMonth;
+  late PageMonth _pageMonth;
 
   @override
   void initState() {
@@ -106,8 +103,8 @@ class _MonthPageViewState extends CalendarPageViewState<MonthPageView> {
 
   Future<void> _animateToMonth(
     DateTime month, {
-    @required Duration duration,
-    @required Curve curve,
+    required Duration duration,
+    required Curve curve,
   }) {
     Month m = new Month.fromDateTime(month);
     int page = _pageMonth.pageOfMonth(m);
@@ -125,7 +122,7 @@ class _MonthPageViewState extends CalendarPageViewState<MonthPageView> {
       Month m = _pageMonth.monthOfPage(page);
       DateTime month = m.toDateTime();
 
-      widget.onMonthChanged(month);
+      widget.onMonthChanged!(month);
     }
   }
 

@@ -5,10 +5,9 @@ import 'package:users_calendar_view/src/_internal_date_time/all.dart';
 @immutable
 class PageMonth {
   PageMonth({
-    @required this.initialPage,
-    @required this.initialMonth,
-  })  : assert(initialPage != null),
-        assert(initialMonth != null);
+    required this.initialPage,
+    required this.initialMonth,
+  });
 
   final int initialPage;
   final Month initialMonth;
