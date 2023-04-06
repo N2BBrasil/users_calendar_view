@@ -9,6 +9,7 @@ class DayViewProperties {
     required List<String> userIds,
     this.minimumMinuteOfDay = 0,
     this.maximumMinuteOfDay = 1440,
+    this.maxDaysOnPage = 7,
   })  : this.days = days.map((day) => stripDateInformation(day)).toList(),
         this.userIds = userIds,
         assert(isMinuteOfDayValid(minimumMinuteOfDay)),
@@ -24,6 +25,8 @@ class DayViewProperties {
 
   /// Maximum minute of day for day view widgets.
   final int maximumMinuteOfDay;
+
+  final int maxDaysOnPage;
 
   /// Number of minutes between [minimumMinuteOfDay] and [maximumMinuteOfDay].
   int get totalNumberOfMinutes => maximumMinuteOfDay - minimumMinuteOfDay;
@@ -48,6 +51,5 @@ class DayViewProperties {
   }
 
   @override
-  int get hashCode =>
-      days.hashCode ^ minimumMinuteOfDay.hashCode ^ maximumMinuteOfDay.hashCode;
+  int get hashCode => days.hashCode ^ minimumMinuteOfDay.hashCode ^ maximumMinuteOfDay.hashCode;
 }

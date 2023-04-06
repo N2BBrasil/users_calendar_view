@@ -39,8 +39,7 @@ class _DayViewScheduleState extends State<DayViewSchedule> {
 
   DayViewProperties get _dayViewProperties => _dayViewEssentials!.properties;
 
-  HorizontalPositioner? get _horizontalPositioner =>
-      _dayViewEssentials!.horizontalPositioner;
+  HorizontalPositioner? get _horizontalPositioner => _dayViewEssentials!.horizontalPositioner;
 
   @override
   void didChangeDependencies() {
@@ -66,9 +65,7 @@ This widget must be a decendant of DayViewEssentials.
     if (widget.heightPerMinute != null) {
       return widget.heightPerMinute;
     } else {
-      double heightWithoutExtensions = availableHeight -
-          widget.topExtensionHeight -
-          widget.bottomExtensionHeight;
+      double heightWithoutExtensions = availableHeight - widget.topExtensionHeight - widget.bottomExtensionHeight;
 
       int totalNumberOfMinutes = _dayViewProperties.totalNumberOfMinutes;
 
@@ -99,28 +96,23 @@ Either heightPerMinute must be provided or this widget placed as a child of a wi
   Widget build(BuildContext context) {
     return new LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        double? heightPerMinute =
-            _determineHeightPerMinute(constraints.maxHeight);
+        double? heightPerMinute = _determineHeightPerMinute(constraints.maxHeight);
 
-        SchedulePositioner positioner =
-            _createSchedulePositioner(heightPerMinute);
+        SchedulePositioner positioner = _createSchedulePositioner(heightPerMinute);
 
-        double addWidth = positioner.widths.daySeparationAreaWidth *
-                (positioner.properties.numberOfDays) -
+        double addWidth = positioner.widths.daySeparationAreaWidth * (positioner.properties.numberOfDays) -
             positioner.widths.timeIndicationAreaWidth;
 
-        if (positioner.properties.numberOfDays > 8) {
-          addWidth += positioner.dayAreaWidth(8) *
-                  (positioner.properties.numberOfDays - 8) -
+        if (positioner.properties.numberOfDays > positioner.properties.maxDaysOnPage) {
+          addWidth += positioner.dayAreaWidth(positioner.properties.maxDaysOnPage) *
+                  (positioner.properties.numberOfDays - positioner.properties.maxDaysOnPage) -
               (DAY_VIEW_MARGIN_SPACING * 2);
         } else {
           addWidth -= 58;
         }
 
         return new Container(
-          width: positioner.totalWidth +
-              addWidth -
-              positioner.properties.numberOfDays,
+          width: positioner.totalWidth + addWidth - positioner.properties.numberOfDays,
           height: positioner.totalHeight,
           child: Stack(
             children: _buildComponentItems(

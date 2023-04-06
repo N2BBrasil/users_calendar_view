@@ -1,10 +1,6 @@
 import 'package:meta/meta.dart';
 import 'package:users_calendar_view/users_calendar_view.dart';
 
-import 'day_view_area.dart';
-import 'day_view_properties.dart';
-import 'day_view_widths.dart';
-
 /// Assistant for horizontal positioning for day view widgets.
 @immutable
 class HorizontalPositioner {
@@ -179,8 +175,7 @@ class HorizontalPositioner {
 
   // contentArea ---------------------------------------------------------------
 
-  double get contentAreaWidth =>
-      totalAreaWidth - startTotalAreaWidth - endTotalAreaWidth;
+  double get contentAreaWidth => totalAreaWidth - startTotalAreaWidth - endTotalAreaWidth;
 
   double get contentAreaLeft => startTotalAreaRight;
 
@@ -192,8 +187,7 @@ class HorizontalPositioner {
 
   double get timeIndicationAreaLeft => contentAreaLeft;
 
-  double get timeIndicationAreaRight =>
-      timeIndicationAreaLeft + timeIndicationAreaWidth;
+  double get timeIndicationAreaRight => timeIndicationAreaLeft + timeIndicationAreaWidth;
 
   // separationArea ------------------------------------------------------------
 
@@ -245,8 +239,8 @@ class HorizontalPositioner {
     double r = eventAreaWidth;
     r -= (properties.numberOfDaySeparations * _constantDaySeparationAreaWidth);
 
-    if (properties.numberOfDays > 8) {
-      r /= 8;
+    if (properties.numberOfDays > properties.maxDaysOnPage) {
+      r /= properties.maxDaysOnPage;
     } else {
       r /= properties.numberOfDays + (properties.numberOfDays * .025);
     }
@@ -295,8 +289,7 @@ class HorizontalPositioner {
   double daySeparationAreaRight(int daySeparationNumber) {
     throwArgumentErrorIfInvalidDaySeparationNumber(daySeparationNumber);
 
-    return daySeparationAreaLeft(daySeparationNumber) +
-        _constantDaySeparationAreaWidth;
+    return daySeparationAreaLeft(daySeparationNumber) + _constantDaySeparationAreaWidth;
   }
 
   /// Returns the daySeparationNumber of [DayViewArea.daySeparationArea] that is to the left of the given day.
@@ -355,8 +348,7 @@ class HorizontalPositioner {
           totalWidth == other.totalWidth;
 
   @override
-  int get hashCode =>
-      properties.hashCode ^ widths.hashCode ^ totalWidth.hashCode;
+  int get hashCode => properties.hashCode ^ widths.hashCode ^ totalWidth.hashCode;
 
   double _minimumZero(double value) {
     if (value < 0.0) {
@@ -384,8 +376,7 @@ class HorizontalPositioner {
     if (properties.numberOfDaySeparations == 0) {
       throw new ArgumentError("There are no day separations (only one day)");
     } else {
-      if (daySeparationNumber! < 0 ||
-          daySeparationNumber >= properties.numberOfDaySeparations) {
+      if (daySeparationNumber! < 0 || daySeparationNumber >= properties.numberOfDaySeparations) {
         throw new ArgumentError.value(
           daySeparationNumber,
           "daySeparationNumber",
